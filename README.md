@@ -80,7 +80,7 @@ It's also needed to extend the "extra/installer-paths" section with:
     "type:bower-asset",
     "type:npm-asset"
 ],
-"web/libraries/swagger-ui": ["bower-asset/swagger-ui"],
+"web/libraries/swagger-ui": ["npm-asset/swagger-ui-dist"],
 ```
 
 And add a new "installer-types" section next to "extra/installer-paths":
@@ -92,7 +92,7 @@ And add a new "installer-types" section next to "extra/installer-paths":
 After this you can install the library with the following command:
 
 ```shell
-composer require oomphinc/composer-installers-extender bower-asset/swagger-ui
+composer require oomphinc/composer-installers-extender npm-asset/swagger-ui-dist
 ```
 
 The library will be downloaded into the `[DRUPAL ROOT]/libraries` directory.

@@ -23,7 +23,7 @@
         "drupal/core": "^10.4.5 || ^11.1.7"
     },
     "require-dev": {
-        "bower-asset/swagger-ui": "^4.17.0",
+        "npm-asset/swagger-ui-dist": "^5.29.2",
         "composer/installers": "^2.2.0",
         "drupal/devel": "^5.2.1",
         "mglaman/phpstan-drupal": "^1.3.8",
@@ -86,6 +86,11 @@
                 "[web-root]/libraries/swagger-ui/dist/swagger-ui-standalone-preset.js": "vendor/bower-asset/swagger-ui/dist/swagger-ui-standalone-preset.js",
                 "[web-root]/libraries/swagger-ui/dist/swagger-ui.css": "vendor/bower-asset/swagger-ui/dist/swagger-ui.css",
                 "[web-root]/libraries/swagger-ui/package.json": "vendor/bower-asset/swagger-ui/package.json",
+                "[web-root]/libraries/swagger-ui/dist/oauth2-redirect.html": "vendor/npm-asset/swagger-ui-dist/oauth2-redirect.html",
+                "[web-root]/libraries/swagger-ui/dist/swagger-ui-bundle.js": "vendor/npm-asset/swagger-ui-dist/swagger-ui-bundle.js",
+                "[web-root]/libraries/swagger-ui/dist/swagger-ui-standalone-preset.js": "vendor/npm-asset/swagger-ui-dist/swagger-ui-standalone-preset.js",
+                "[web-root]/libraries/swagger-ui/dist/swagger-ui.css": "vendor/npm-asset/swagger-ui-dist/swagger-ui.css",
+                "[web-root]/libraries/swagger-ui/package.json": "vendor/npm-asset/swagger-ui-dist/package.json",
                 "[project-root]/.gitattributes": false
             }
         },
