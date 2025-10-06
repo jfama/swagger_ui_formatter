@@ -96,6 +96,9 @@ abstract class SwaggerUiLibraryDiscoveryBase implements SwaggerUiLibraryDiscover
     if (!file_exists($library_dir) || !is_dir($library_dir)) {
       throw SwaggerUiLibraryDiscoveryException::becauseLibraryDirectoryIsInvalid($library_dir);
     }
+    // @todo In Swagger UI FF 5.0 add strict check on oauth2-redirect.js and
+    //   remove lenient check from hook_requirements().
+    // @see https://github.com/Pronovix/swagger_ui_formatter/issues/122
     $files_to_check = [
       'package.json',
       'dist/swagger-ui.css',

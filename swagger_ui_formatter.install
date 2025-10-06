@@ -24,7 +24,7 @@ use Drupal\swagger_ui_formatter\SwaggerUiLibraryDiscovery\SwaggerUiLibraryDiscov
 function swagger_ui_formatter_requirements(string $phase): array {
   $requirements = [];
 
-  // Make sure that the Swagger UI library discovery service is available.
+  // Make sure the Swagger UI library discovery service is available.
   if ($phase === 'install') {
     /** @var \Drupal\Core\DependencyInjection\ClassResolverInterface $class_resolver */
     $class_resolver = \Drupal::service('class_resolver');
@@ -37,7 +37,7 @@ function swagger_ui_formatter_requirements(string $phase): array {
     $swagger_ui_library_discovery = \Drupal::service('swagger_ui_formatter.swagger_ui_library_discovery');
   }
 
-  if (in_array($phase, ['runtime', 'install'])) {
+  if (in_array($phase, ['runtime', 'install'], TRUE)) {
     try {
       $library_dir = $swagger_ui_library_discovery->libraryDirectory();
       $library_version = $swagger_ui_library_discovery->libraryVersion();
@@ -51,6 +51,21 @@ function swagger_ui_formatter_requirements(string $phase): array {
           ]),
         ],
       ];
+
+      if ($swagger_ui_library_discovery instanceof SwaggerUiLibraryDiscoveryFromDownloadedArtifact
+        && version_compare($library_version, '5.29.0', '>=')
+        && !file_exists($library_dir . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'oauth2-redirect.js')) {
+
+        $requirements['swagger_ui_formatter_oauth_flow'] = [
+          'title' => t('Swagger UI library: OAuth2 authentication'),
+          'severity' => REQUIREMENT_WARNING,
+          'description' => [
+            '#markup' => t('Starting with version 5.29.0, Swagger UI moved inline JavaScript from <code>oauth2-redirect.html</code> to a new file, <code>oauth2-redirect.js</code>. This file is missing, which disables OAuth2 authentication. Update your scaffold settings. See the related <a href="@url" target="_blank">pull request</a> for details.', [
+              '@url' => 'https://github.com/Pronovix/swagger_ui_formatter/pull/118',
+            ]),
+          ],
+        ];
+      }
     }
     catch (SwaggerUiLibraryDiscoveryExceptionInterface $exception) {
       $requirements['swagger_ui_formatter'] = [
@@ -62,7 +77,7 @@ function swagger_ui_formatter_requirements(string $phase): array {
         ],
       ];
     }
-    // Make sure that the status info is being refreshed if the theme changes.
+    // Make sure the status info is being refreshed if the theme changes.
     if ($swagger_ui_library_discovery instanceof CacheableDependencyInterface) {
       $requirement_description = &$requirements['swagger_ui_formatter']['description'];
       $cacheable_metadata = CacheableMetadata::createFromRenderArray($requirement_description)->merge(CacheableMetadata::createFromObject($swagger_ui_library_discovery));
